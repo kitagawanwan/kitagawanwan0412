@@ -12,7 +12,7 @@ elapsed_time = end_time - start_time
 
  
 
-print(f"Pa: {Pa}")
-print(f"Pb: {Pb}")
-print(f"複合にかかる時間: {elapsed_time} 秒")
+st.write(f"Pa: {Pa}")
+st.oita(f"Pb: {Pb}")
+st.oita(f"複合にかかる時間: {elapsed_time} 秒")
  
