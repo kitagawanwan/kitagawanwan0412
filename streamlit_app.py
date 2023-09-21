@@ -1,18 +1,49 @@
-tart_time = time.time()  # 計測開始
+import streamlit as st
+import time
+import math
 
  
 
-Pa = pow(code_a, x, n)
-Pb = pow(code_b, x, n)
+def factorize(n):
+    factors = []
+    while n % 2 == 0:
+        factors.append(2)
+        n //= 2
+    for i in range(3, int(math.sqrt(n)) + 1, 2):
+        while n % i == 0:
+            factors.append(i)
+            n //= i
+    if n > 1:
+        factors.append(n)
+    return factors
 
  
 
-end_time = time.time()  # 計測終了
-elapsed_time = end_time - start_time
+def main():
+    st.title("素因数分解時間計測アプリ")
 
  
 
-st.write(f"Pa: {Pa}")
-st.write(f"Pb: {Pb}")
-st.write(f"複合にかかる時間: {elapsed_time} 秒")
+    st.write("このアプリは、与えられた整数の素因数分解を行い、所要時間を計測します。")
+
  
+
+    number_to_factorize = st.number_input("素因数分解対象の数を入力してください:", min_value=1)
+
+ 
+
+    if st.button("計測開始"):
+        start_time = time.time()
+        factors = factorize(number_to_factorize)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+
+ 
+
+        st.write(f"素因数分解結果: {factors}")
+        st.write(f"素因数分解にかかる時間: {elapsed_time:.4f} 秒")
+
+ 
+
+if __name__ == "__main__":
+    main()
