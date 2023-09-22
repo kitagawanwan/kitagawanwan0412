@@ -1,36 +1,38 @@
-import streamlit as st
-import time
-import math
+pip install sympy
 
-def factorize(n):
-    factors = []
-    while n % 2 == 0:
-        factors.append(2)
-        n //= 2
-    for i in range(3, int(math.sqrt(n)) + 1, 2):
-        while n % i == 0:
-            factors.append(i)
-            n //= i
-    if n > 1:
-        factors.append(n)
-    return factors
+import streamlit as st
+import sympy
+import time
+
+def factorize_with_timing(n):
+    start_time = time.time()
+    factors = sympy.factorint(n)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    return factors, elapsed_time
 
 def main():
-    st.title("素因数分解時間計測アプリ")
+    st.title("大きな整数の素因数分解アプリ")
 
-    st.write("このアプリは、与えられた整数の素因数分解を行い、所要時間を計測します。")
+    st.write("このアプリは、与えられた整数の素因数分解を行い、計算時間を表示します。")
 
-    number_to_factorize = st.number_input("素因数分解対象の数を入力してください:", min_value=1)
+    number_to_factorize = st.text_input("素因数分解対象の整数を入力してください:")
 
-    if st.button("計測開始"):
-        with st.spinner("計測中..."):
-            start_time = time.time()
-            factors = factorize(number_to_factorize)
-            end_time = time.time()
-            elapsed_time = end_time - start_time
+    if st.button("素因数分解"):
+        try:
+            # 文字列を整数に変換
+            num = int(number_to_factorize)
 
-        st.write(f"素因数分解結果: {factors}")
-        st.write(f"素因数分解にかかる時間: {elapsed_time:.4f} 秒")
+            with st.spinner("計算中..."):
+                factors, elapsed_time = factorize_with_timing(num)
+
+            st.write(f"素因数分解結果: {factors}")
+            st.write(f"素因数分解にかかる時間: {elapsed_time:.4f} 秒")
+        except ValueError:
+            st.error("無効な整数が入力されました。整数を入力してください。")
+        except Exception as e:
+            st.error(f"素因数分解中にエラーが発生しました: {str(e)}")
 
 if __name__ == "__main__":
     main()
+
