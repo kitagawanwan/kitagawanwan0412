@@ -1,4 +1,4 @@
-pip install sympy
+
 
 import streamlit as st
 import sympy
